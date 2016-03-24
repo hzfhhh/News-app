@@ -1,0 +1,48 @@
+<ion-view view-title="分享"  hide-tabs="true">
+  <ion-nav-buttons side="left">
+    <button class="button button-stable concel" ui-sref="tab.dash">取消</button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button button-positive send" ng-click="send()">发送</button>
+  </ion-nav-buttons>
+	<ion-content>
+	<textarea id="msg" class="publish-message" ng-model="msg" name="msg" placeholder="分享内容..."></textarea>
+	<div class="album">
+	  <ul>
+	  	<li ng-repeat="item in uploader.queue">
+	  	  <strong ng-hide="true">{{ item.file.name }}</strong>
+	  	  <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file,width:65, height: 65 }"></div>
+	  	  <!-- <button type="button" class="btn btn-success btn-xs" ng-hide="true" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+            <span class="glyphicon glyphicon-upload"></span> Upload
+          </button> -->
+         <!--  <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+          </button> -->
+          <button class="button button-icon icon ion-ios-close-empty delete" ng-click="item.remove()">
+          </button>	
+	  	</li>
+	  </ul>
+	</div> 
+	
+	  <button type="button" class="btn btn-success" id="upload-all" ng-hide="true" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+      <span class="glyphicon glyphicon-upload"></span> Upload all
+    </button>
+	</ion-content>
+  <ion-footer-bar align-title="left" class="bar-light" resize-foot-bar>
+<!--   <div class="rj-footer-btn-wrap">
+    <button class="button button-icon icon ion-ios-mic-outline rj-footer-btn-left">
+    </button>
+  </div> -->
+<!--   <label class="item item-input rj-footer-input">
+    <textarea class="chat-messsage" msd-elastic ng-model="send_content"></textarea>
+  </label> -->
+  <button id="emoji" ng-click="emoji()" class="rj-footer-btn button button-icon icon ion-android-happy"></button>
+  <div class="rj-footer-btn-wrap">
+    <button ng-click="toInput()" ng-show="!send_content || send_content === ''" class="button button-icon icon ion-ios-plus-outline rj-footer-btn-left">
+    </button>
+    <input type="file" id="upLoad" nv-file-select="" uploader="uploader" ng-hide="true" uploader="uploader" multiple/><br/>
+  </div>
+  <div id="emojiWrapper" ng-click="emojiW()">
+  </div>
+</ion-footer-bar>
+</ion-view>

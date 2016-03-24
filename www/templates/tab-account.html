@@ -1,0 +1,31 @@
+<ion-view view-title="我的">
+  <ion-content>
+    <ion-list>  
+      <ion-item class="item-avatar item-icon-right" href="">
+        <img ng-src="{{user[0].avatar}}" class="avatar">
+        <span class="name">{{user[0].name}}</span>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    <!--<ion-toggle  ng-model="settings.enableFriends">
+        Enable Friends
+    </ion-toggle>-->
+      <ion-item item-icon-left href="#">
+        <i class="icon ion-document-text"></i>
+        <span>我的分享</span>
+      </ion-item>
+      <ion-item item-icon-left href="#">
+        <i class="icon ion-ios-chatboxes"></i>
+        <span>我的消息</span>
+      </ion-item>
+      <ion-item item-icon-left href="#">
+        <i class="icon ion-ios-pricetag"></i>
+        <span>我的收藏</span>
+      </ion-item>
+      <ion-item item-icon-left href="#">
+        <i class="icon ion-ios-gear"></i>
+        <span>我的设置</span>
+      </ion-item>
+    </ion-list>
+    <a class="button button-block button-assertive exit" type="submit" href="login.html" >退出登录</a>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,41 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view hide-tabs="true" view-title="{{friend.name}}">
+  <!--<button class="button icon-left ion-chevron-left button-clear">-->
+  <ion-content class="padding">
+  <div id="msgItems">
+    <div class="" ng-repeat="msg in Msg" type="item-text-wrap">
+      <div>
+       <img ng-src="{{msg.avatar}}" style="width: 50px; height: 50px;border-radius :50%;">
+       <p class="msgitem">
+         <!-- <span>{{msg.name}}:</span> -->
+         <span>{{msg.msg}}</span>
+         <p class="stime">{{msg.stime}}</p>
+       </p>
+      </div>
+    </div>
+  </div>
+
+  </ion-content>  
+  <ion-footer-bar align-title="left" class="bar-light" resize-foot-bar>
+  <div class="rj-footer-btn-wrap">
+    <button class="button button-icon icon ion-ios-mic-outline rj-footer-btn-left">
+    </button>
+  </div>
+  <label class="item item-input rj-footer-input">
+    <textarea id="msgContent" class="chat-messsage" msd-elastic ng-model="send_content"></textarea>
+  </label>
+  <button id="emoji" ng-click="emoji()" class="rj-footer-btn button button-icon icon ion-happy-outline"></button>
+  <div class="rj-footer-btn-wrap">
+    <button ng-click="" ng-show="!send_content || send_content === ''" class="button button-icon icon ion-ios-plus-outline rj-footer-btn-left">
+    </button>
+    <button class="button button-positive button-small" ng-hide="!send_content || send_content === ''" ng-click="sendMsg('{{friend.id}}')">发送</button>
+  </div>
+  <div id="emojiWrapper" ng-click="emojiW()">
+  </div>
+</ion-footer-bar>
+</ion-view>

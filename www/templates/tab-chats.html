@@ -1,0 +1,16 @@
+<ion-view view-title=通讯录>
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="friend in friends" type="item-text-wrap" href="#/tab/friend/{{friend.id}}">
+        <img ng-src="{{friend.avatar}}">
+        <h2>{{friend.name}}</h2>
+        <!-- <p>{{chat.lastText}}</p> -->
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+<!--         <ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button> -->
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
