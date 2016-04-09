@@ -1,0 +1,22 @@
+<ion-view view-title="添加好友">
+  <ion-content class="background">
+    <ion-item item-icon-left>
+      <input type="text" placeholder="输入账号" id="account" />
+      <!-- <input type="button" value="搜索" class="button button-icon icon ion-android-search" ng-click="search()"/> -->
+      <span>
+        <button class="button-icon icon icon-accessory ion-ios-search" ng-click="search()"></button>
+      </span>
+    </ion-item>
+  	<!-- <div>
+  	<input type="text" placeholder="输入账号" id="account" />
+    <input type="button" value="搜索" ng-click="search()"/>
+  	</div> -->
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="friend in newFriend" type="item-text-wrap" ng-click="addFriend('{{friend.id}}')">
+        <img ng-src="{{friend.avatar}}">
+        <h2>{{friend.name}}</h2>
+        <i class="icon icon-accessory" id="flag">添加好友</i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

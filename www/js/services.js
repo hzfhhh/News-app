@@ -6,7 +6,7 @@ angular.module('starter.services', [])
   console.log("try");
   $http({
       method : 'POST',
-      url : 'http://localhost:8081/getFriendList'
+      url : 'http://192.168.191.1:8081/getFriendList'
     })
     .success(function(res) {
       console.log("success");
@@ -16,7 +16,7 @@ angular.module('starter.services', [])
     var userInfo;
     $http({
         method : 'POST',
-        url : 'http://localhost:8081/userInfo',
+        url : 'http://192.168.191.1:8081/userInfo',
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
       })
       .success(function(res) {

@@ -1,0 +1,16 @@
+<ion-view view-title=我的消息>
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="friend in newFriend" type="item-text-wrap" ng-click="addFriend('{{friend.id}}')">
+        <img ng-src="{{friend.avatar}}">
+        <h2>{{friend.name}}</h2>
+        <div class="config">
+          <button class="button button-small button-positive" ng-click="dealResult('{{friend.id}}','add')">确认</button>
+        <button class="button button-small button-assertive" ng-click="dealResult('{{friend.id}}','refuse')">忽略</button>
+        </div>
+
+      </ion-item>
+    </ion-list>
+
+  </ion-content>
+</ion-view>

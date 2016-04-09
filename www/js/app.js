@@ -158,8 +158,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/login',
     views: {
       'tab-login': {
-        templateUrl: 'templates/tab-login.html'
-        
+        templateUrl: 'templates/tab-login.html'       
       }
     }
 })
@@ -169,6 +168,35 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
         controller: 'AccountCtrl'
+      }
+    }
+  })
+  .state('tab.collect', {
+    url: '/collect',
+    views: {
+      'tab-chats': {
+        templateUrl: 'templates/collect.html',
+        controller: 'CollectCtrl'
+      }
+    }
+  })
+
+  .state('tab.addNewFriend', {
+    url: '/addNewFriend',
+    views: {
+      'tab-chats': {
+        templateUrl: 'templates/addNewFriend.html',
+        controller: 'AddNewFriendCtrl'
+      }
+    }
+  })
+
+  .state('tab.mynews', {
+    url: '/mynews',
+    views: {
+      'tab-chats': {
+        templateUrl: 'templates/mynews.html',
+        controller: 'MyNewsCtrl'
       }
     }
   });

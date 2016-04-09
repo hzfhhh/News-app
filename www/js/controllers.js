@@ -3,14 +3,24 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($scope, $http, friends) {
   $http({
       method : 'GET',
-      url : 'http://localhost:8081/getIndex',
+      url : 'http://192.168.191.1:8081/getIndex',
       //headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
     })
    .success(function(res) {
       $scope.chats = res;
     });
   setTimeout(function(){$scope.user = friends.getuserInfo()},100);
-   $scope.myVar = true;
+    $scope.myVar = true;
+    $scope.collect = function (id) {
+      var data = {
+        pbid: id
+      };
+      $http({
+        method : 'POST',
+        url : 'http://192.168.191.1:8081/insertCollect',
+        data:data,
+      });
+    }
     $scope.toggle = function (id) {
      //$scope.myVar = !$scope.myVar;
      if(document.getElementById("comment"+id).style.display=="none"){
@@ -22,7 +32,7 @@ angular.module('starter.controllers', [])
      if(document.getElementById("count"+id).innerHTML!="0"){
         $http({
           method : 'POST',
-          url : 'http://localhost:8081/getComment',
+          url : 'http://192.168.191.1:8081/getComment',
           data : {id:id},
           headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
         })
@@ -44,13 +54,7 @@ angular.module('starter.controllers', [])
         content+='<input id="addcomment'+id+'" class="commentText" type="text" name="addcomment" placeholder="输入你的评论" require/><input class="submitbtn button button-positive" onclick="submitComment('+id+')" type="button" value="提交" />';
         document.getElementById("comment"+id).innerHTML=content;
      }
-     
   }
-  // setTimeout(function(){
-  //   console.log("timeout");
-  //   $scope.user = userInfo.all();
-  //   console.log("userInfo:"+userInfo);    
-  // },1000);
 })
 
 
@@ -74,7 +78,7 @@ angular.module('starter.controllers', [])
   console.log(data.msg);
     $http({
       method : 'POST',
-      url : 'http://localhost:8081/getMsg',
+      url : 'http://192.168.191.1:8081/getMsg',
       data : data,
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
@@ -82,7 +86,7 @@ angular.module('starter.controllers', [])
       console.log("success");
     });
     uploader.uploadAll();
-    window.location.href = "http://localhost:8081/#/tab/dash";
+    window.location.href = "http://192.168.191.1:8081/#/tab/dash";
     //document.getElementById("upload-all").click();
   }
   //添加图片
@@ -122,7 +126,7 @@ angular.module('starter.controllers', [])
   };
   //上传图片
       var uploader = $scope.uploader = new FileUploader({
-            url: 'http://localhost:8081/upload'
+            url: 'http://192.168.191.1:8081/upload'
             //url:'upload.php'
         });
       uploader.filters.push({
@@ -175,7 +179,7 @@ angular.module('starter.controllers', [])
 .controller('ChatsCtrl', function($scope,$http,$stateParams,friends) {
    $http({
       method : 'POST',
-      url : 'http://localhost:8081/getFriendList'
+      url : 'http://192.168.191.1:8081/getFriendList'
     })
     .success(function(res) {
       $scope.friends = res;
@@ -218,7 +222,7 @@ angular.module('starter.controllers', [])
       method : 'POST',
       data:{msg:msg,
         receiveid:friendid},
-      url : 'http://localhost:8081/addMsg',
+      url : 'http://192.168.191.1:8081/addMsg',
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
     .success(function(res) {
@@ -245,7 +249,7 @@ angular.module('starter.controllers', [])
       data:{
         friendId:$stateParams.friendId
       },
-      url : 'http://localhost:8081/getHistoryMsg',
+      url : 'http://192.168.191.1:8081/getHistoryMsg',
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
     .success(function(res) {
@@ -322,25 +326,155 @@ $scope.initialEmoji = function() {
    }
     
 })
-
-
+//个人信息管理
 .controller('AccountCtrl', function($scope,friends) {
   setTimeout(function(){$scope.user = friends.getuserInfo()},100);
-  //   setTimeout(function(){
-  //   console.log("timeout");
-  //   $scope.user = userInfo.all();
-  //   console.log("userInfo:"+userInfo);    
-  // },1000);
-  // console.log("dd");
-  // $http({
-  //       method : 'POST',
-  //       async : false,
-  //       url : 'http://localhost:8081/userInfo',
-  //       headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
-  //     })
-  //     .success(function(res) {
-  //       console.log(res);
-  //       $scope.user = res;
-  //      // console.log("userInfo:"+userInfo);
-  //   });
+})
+
+//收藏页面
+.controller('CollectCtrl', function($scope, $http) {
+  $http({
+      method : 'GET',
+      url : 'http://192.168.191.1:8081/getCollect',
+      //headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
+    })
+   .success(function(res) {
+      $scope.chats = res;
+      console.log(res);
+    });
+    $scope.myVar = true;
+    $scope.toggle = function (id) {
+     //$scope.myVar = !$scope.myVar;
+     if(document.getElementById("comment"+id).style.display=="none"){
+        document.getElementById("comment"+id).style.display="block";
+     }
+     else{
+         document.getElementById("comment"+id).style.display="none";
+     }
+     if(document.getElementById("count"+id).innerHTML!="0"){
+        $http({
+          method : 'POST',
+          url : 'http://192.168.191.1:8081/getComment',
+          data : {id:id},
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .success(function(res) {
+          var content="<div id='content"+id+"' >";
+          if(res.length>0){
+            for(var i=0;i<res.length;i++){
+               content+='<ion-item class="comment-item"><span class="critic">'+res[i].username+"："+'</span><span class="content">'+res[i].content+'</span></ion-item>';
+            }
+            content+="</div>";
+          }
+        content+='<input id="addcomment'+id+'" class="commentText" type="text" name="addcomment" placeholder="输入你的评论" /><button class="submitbtn button button-positive" onclick="submitComment('+id+')" >提交</button>';
+        document.getElementById("comment"+id).innerHTML=content;
+        console.log(res);
+        });
+     }
+     else{
+        var content="<div id='content"+id+"' ></div>";
+        content+='<input id="addcomment'+id+'" class="commentText" type="text" name="addcomment" placeholder="输入你的评论" require/><input class="submitbtn button button-positive" onclick="submitComment('+id+')" type="button" value="提交" />';
+        document.getElementById("comment"+id).innerHTML=content;
+     }
+  }
+})
+
+
+
+//请求添加好友页面
+.controller('AddNewFriendCtrl', function($scope, $http) {
+  console.log(document.getElementById("flag"));
+  $scope.search = function () {
+    var value=document.getElementById("account").value;
+    if(trim(value)==""){
+      alert("请输入账号");
+      document.getElementById("account").value="";
+      return;
+    }
+
+    $http({
+      method : 'POST',
+      data:{
+        account:value
+      },
+      url : 'http://192.168.191.1:8081/searchByAccount',
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
+    })
+   .success(function(res) {
+      if(res.length==0){
+        alert("没有查找到该用户");
+      }
+      else{
+         $scope.newFriend=res;
+         /*
+         if(res[0].pswd=="friend"){
+            document.getElementById("flag").innerHTML="已添加";
+         }
+         else{
+           document.getElementById("flag").innerHTML="添加好友";
+         }
+         */
+         console.log(res);
+      }
+    });
+  };
+
+
+   $scope.addFriend= function (friendid) {
+       $http({
+        method : 'POST',
+        data:{
+          friendid:friendid
+        },
+        url : 'http://192.168.191.1:8081/addNewFriend',
+        headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
+      })
+     .success(function(res) {
+        if(res=="success"){
+          alert("正在等待对方确认");
+        }
+        else if(res=="addEver"){
+          alert("过去已请求添加，请耐心等待对方确认");
+        }
+        else if(res=="friend"){
+          alert("你们已经是好友了");
+        }
+        console.log(res);
+      });
+   };
+
+  
+})
+
+//处理好友添加请求
+.controller('MyNewsCtrl', function($scope, $http) {
+    $http({
+    method : 'GET',
+    url : 'http://192.168.191.1:8081/getNews'
+    })
+   .success(function(res) {
+      console.log(res);
+      $scope.newFriend=res;
+    });
+
+  $scope.dealResult = function (friendid,flag) {
+    if(flag=="refuse"){
+      alert("已忽略");
+      return;
+    }
+
+    $http({
+      method : 'POST',
+      data:{
+        friendid:friendid
+      },
+      url : 'http://192.168.191.1:8081/dealAddFriend',
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
+    })
+   .success(function(res) {
+      if(res=="success")
+        alert("添加成功");
+    });
+  };
+
 });

@@ -9,7 +9,7 @@
 	margin-bottom: 10px;
 	padding: 0;
 }
-.padding {
+.background {
 	/*padding-left: 0;
 	padding-right: 0;*/
 	background-color: #F2F2F2;
@@ -19,14 +19,14 @@
 	height: 140px;
 	margin-top: 20px;
 	margin-left: 5%;
-	/*margin-right: 20px;*/
+	resize: none;
 	font-size: medium;
 	font-weight: bold;
 }
 .chat-messsage {
 	border: none;
 	margin-top: 15px;
-	
+
 }
 .rj-footer-input {
 	width: 80%;
@@ -128,7 +128,7 @@ li {
 
 	position: relative;
 	left: 50%;
-	top: -78px; 
+	top: -78px;
 }
 .delete1 {
 	display: block;
@@ -136,7 +136,7 @@ li {
 	height: 15px;
 	background-color: red;
 	border-radius:50%;
-	
+
 }
 .comment-item {
 	margin: auto;
@@ -157,7 +157,7 @@ li {
 }
 
 .critic{
-	padding-right:20px;
+	padding-right: 0px;
 }
 .submitbtn {
     font-size: 5px;
@@ -177,4 +177,17 @@ li {
 }
 .stime {
 	margin-left: 30%;
+}
+#account {
+	width: 90%;
+	border-bottom: 1px solid rgb(186,218,248);
+	display: inline;
+}
+.config {
+	text-align: right;
+	margin: -15px;
+}
+.config .button {
+  width: 70px;
+  height: 25px;
 }

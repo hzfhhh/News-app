@@ -1,18 +1,10 @@
-<!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
--->
-<ion-view hide-tabs="true" view-title="{{friend.name}}">
-  <!--<button class="button icon-left ion-chevron-left button-clear">-->
+<ion-view view-title="{{friend.name}}" hide-tabs="true">
   <ion-content class="padding">
   <div id="msgItems">
     <div class="" ng-repeat="msg in Msg" type="item-text-wrap">
       <div>
        <img ng-src="{{msg.avatar}}" style="width: 50px; height: 50px;border-radius :50%;">
        <p class="msgitem">
-         <!-- <span>{{msg.name}}:</span> -->
          <span>{{msg.msg}}</span>
          <p class="stime">{{msg.stime}}</p>
        </p>
@@ -37,5 +29,5 @@
   </div>
   <div id="emojiWrapper" ng-click="emojiW()">
   </div>
-</ion-footer-bar>
+  </ion-footer-bar>
 </ion-view>

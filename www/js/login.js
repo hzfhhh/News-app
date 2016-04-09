@@ -11,7 +11,7 @@ angular.module('Login', [])
 	 };
 	 $http({
       method : 'POST',
-      url : 'http://127.0.0.1:8081/register',
+      url : 'http://192.168.191.1:8081/register',
       data:data,
       //params: {key: data},
       //data : {account : "xxx",password : "123"},
@@ -43,7 +43,7 @@ angular.module('Login', [])
 	 };
 	 $http({
       method : 'POST',
-      url : 'http://127.0.0.1:8081/login',
+      url : 'http://192.168.191.1:8081/login',
       data:data,
       //params: {key: data},
       //data : {account : "xxx",password : "123"},
@@ -54,7 +54,7 @@ angular.module('Login', [])
     	if(res=="success"){
     		alert("登录成功");
     		//window.location.href="http://127.0.0.1/loginsuccess";
-    		//window.location.href="http://localhost:8002/www/#/tab/dash";
+    		//window.location.href="http://192.168.191.1:8002/www/#/tab/dash";
     		// document.getElementById("sign").style.display="none";
 	     //    document.getElementById("login").style.display="block";
     	}
