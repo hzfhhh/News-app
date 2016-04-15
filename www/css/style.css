@@ -47,8 +47,12 @@
 	color: #444;
 }
 .user-message {
-	width: 80%;
-	margin:70px auto auto;
+	width: 100%;
+	margin:100px auto auto;
+}
+.user-message .button {
+  width: 95% !important;
+  margin: 20px auto;
 }
 #login {
 	width: 100%;
@@ -59,10 +63,17 @@
 	margin: 30px auto auto;
 	display: none;
 }
+#sign label {
+  border-style: none;
+}
+#sign label:nth-child(1),#sign label:nth-child(2) {
+  border-bottom-style: solid;
+  margin-bottom: 1px;
+}
 .exit {
 	width: 80%;
 	margin: auto;
-	margin-top: 40px !important;
+	margin-top: 30px !important;
 }
 #emojiWrapper {
     display: none;
@@ -190,4 +201,18 @@ li {
 .config .button {
   width: 70px;
   height: 25px;
+}
+#login .item {
+  border-style: none;
+}
+.index {
+  background-color: #F2F2F2;
+}
+#login label:nth-child(1) {
+  margin-bottom: 1px;
+  border-bottom-style: solid;
+}
+#flag {
+  color: rgb(56,126,245);
+  font-weight: bold;
 }

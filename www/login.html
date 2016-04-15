@@ -24,14 +24,14 @@
     <script src="js/services.js"></script>
     <script src="js/login.js"></script>
   </head>
-  <body ng-app="Login" ng-controller="LoginCtrl">
+  <body class="index" ng-app="Login" ng-controller="LoginCtrl">
     <div class="bar bar-header bar-stable">
       <h1 id="title" class="title">登录</h1>
       <a class="button ion-button ion-android-arrow-back" id="toLogin" ng-click="toLogin()"></a>
       <a class="button button-positive" id="toSign" ng-click="toSign()">注册</a>
     </div>
     <div class="user-message">
-     <form action="http://192.168.191.1:8081/login" method="POST"> 
+     <form action="http://192.168.191.1:8081/login" method="POST">
       <div id="login">
         <label class="item item-input">
           <input type="text" placeholder="账号" name="account" ng-model="account" required>

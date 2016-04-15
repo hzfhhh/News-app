@@ -158,7 +158,7 @@ angular.module('starter.controllers', [])
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
             console.log($scope);
             console.info('onSuccessItem', fileItem, response, status, headers);
-            //window.location.href="http://127.0.0.1:8088/msg?msg=123456";              
+            //window.location.href="http://127.0.0.1:8088/msg?msg=123456";
         };
         uploader.onErrorItem = function(fileItem, response, status, headers) {
             console.info('onErrorItem', fileItem, response, status, headers);
@@ -173,7 +173,7 @@ angular.module('starter.controllers', [])
             console.info('onCompleteAll');
         };
         console.info('uploader', uploader);
-   
+
 })
 
 .controller('ChatsCtrl', function($scope,$http,$stateParams,friends) {
@@ -190,24 +190,24 @@ angular.module('starter.controllers', [])
 })
 
 .controller('ChatDetailCtrl', function($http,$scope, $stateParams, friends) {
-  Date.prototype.Format = function(fmt)   
-    { //author: meizz   
-      var o = {   
-        "M+" : this.getMonth()+1,                 //月份   
-        "d+" : this.getDate(),                    //日   
-        "h+" : this.getHours(),                   //小时   
-        "m+" : this.getMinutes(),                 //分   
-        "s+" : this.getSeconds(),                 //秒   
-        "q+" : Math.floor((this.getMonth()+3)/3), //季度   
-        "S"  : this.getMilliseconds()             //毫秒   
-      };   
-      if(/(y+)/.test(fmt))   
-        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-      for(var k in o)   
-        if(new RegExp("("+ k +")").test(fmt))   
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
-      return fmt;   
-    }  
+  Date.prototype.Format = function(fmt)
+    { //author: meizz
+      var o = {
+        "M+" : this.getMonth()+1,                 //月份
+        "d+" : this.getDate(),                    //日
+        "h+" : this.getHours(),                   //小时
+        "m+" : this.getMinutes(),                 //分
+        "s+" : this.getSeconds(),                 //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S"  : this.getMilliseconds()             //毫秒
+      };
+      if(/(y+)/.test(fmt))
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+      for(var k in o)
+        if(new RegExp("("+ k +")").test(fmt))
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+      return fmt;
+    }
   var friend=friends.get($stateParams.friendId);
   $scope.friend = friend;
   console.log(friends.getuserInfo()[1]);
@@ -229,7 +229,7 @@ angular.module('starter.controllers', [])
       if(res=="success"){
         var div = document.createElement("div");
             // 装载html字符串
-            div.innerHTML ='<div>'+ 
+            div.innerHTML ='<div>'+
             '<img src="'+myInfo.avatar+'" style="width: 50px; height: 50px;border-radius :50%;">'+
             '<p class="msgitem">'+
             '</span><span>'+msg+'</span><p class="stime">'+time+'</p></p></div>';
@@ -324,7 +324,7 @@ $scope.initialEmoji = function() {
      };
      emojiContainer.appendChild(docFragment);
    }
-    
+
 })
 //个人信息管理
 .controller('AccountCtrl', function($scope,friends) {
@@ -443,7 +443,7 @@ $scope.initialEmoji = function() {
       });
    };
 
-  
+
 })
 
 //处理好友添加请求
@@ -457,9 +457,9 @@ $scope.initialEmoji = function() {
       $scope.newFriend=res;
     });
 
-  $scope.dealResult = function (friendid,flag) {
+  $scope.dealResult = function (res,friendid,flag) {
     if(flag=="refuse"){
-      alert("已忽略");
+      res.splice(res.indexOf(friendid),1);
       return;
     }
 
