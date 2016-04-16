@@ -4,12 +4,15 @@
       <button class="button button-icon icon ion-android-search" ng-click=""></button>
     </a>
   </ion-nav-buttons>
+
   <ion-content class="background">
     <ion-list>
       <ion-item class="item-remove-animate item-avatar item-icon-right card" ng-repeat="chat in chats" type="item-text-wrap">
         <img ng-src="{{chat.avatar}}">
         <h2>{{chat.name}}</h2>
-        <p>{{chat.msg}}</p>
+       <!--  <p id="msg{{chat.id}}">{{chat.msg}}</p> -->
+
+          <p ng-bind-html="chat.msg | trustHtml"></p>
         <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
 
         <!--<ion-option-button class="button-assertive" ng-click="remove(chat)">

@@ -7,6 +7,13 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'angularFileUpload'])
 
+.filter('trustHtml', function ($sce) {
+        return function (input) {
+            return $sce.trustAsHtml(input);
+        }
+    })
+
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -35,7 +42,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             scope.$on('$ionicView.beforeLeave', function() {
                 $rootScope.hideTabs = false;
             });
-           
+
         }
     };
 })
@@ -89,18 +96,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
 
-        $ionicConfigProvider.platform.ios.tabs.style('standard'); 
+        $ionicConfigProvider.platform.ios.tabs.style('standard');
         $ionicConfigProvider.platform.ios.tabs.position('bottom');
         $ionicConfigProvider.platform.android.tabs.style('standard');
         $ionicConfigProvider.platform.android.tabs.position('standard');
 
-        $ionicConfigProvider.platform.ios.navBar.alignTitle('center'); 
+        $ionicConfigProvider.platform.ios.navBar.alignTitle('center');
         $ionicConfigProvider.platform.android.navBar.alignTitle('center');
 
         $ionicConfigProvider.platform.ios.backButton.previousTitleText('').icon('ion-ios-arrow-thin-left');
-        $ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');        
+        $ionicConfigProvider.platform.android.backButton.previousTitleText('').icon('ion-android-arrow-back');
 
-        $ionicConfigProvider.platform.ios.views.transition('ios'); 
+        $ionicConfigProvider.platform.ios.views.transition('ios');
         $ionicConfigProvider.platform.android.views.transition('android');
 
 
@@ -128,13 +135,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
   .state('tab.publish', {
-  	url: '/publish',
-  	views: {
-  		'tab-publish': {
-  			templateUrl: 'templates/tab-publish.html',
-  			controller: 'PublishCtrl'
-  		}
-  	}
+    url: '/publish',
+    views: {
+      'tab-publish': {
+        templateUrl: 'templates/tab-publish.html',
+        controller: 'PublishCtrl'
+      }
+    }
   })
   .state('tab.chats', {
       url: '/friend',
@@ -158,7 +165,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/login',
     views: {
       'tab-login': {
-        templateUrl: 'templates/tab-login.html'       
+        templateUrl: 'templates/tab-login.html'
       }
     }
 })

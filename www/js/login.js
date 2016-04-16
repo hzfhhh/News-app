@@ -31,7 +31,7 @@ angular.module('Login', [])
     	else{
     		alert("出错!");
     	}
-    	
+
 	});
 	}
 	//登录
@@ -54,7 +54,7 @@ angular.module('Login', [])
     	if(res=="success"){
     		alert("登录成功");
     		//window.location.href="http://127.0.0.1/loginsuccess";
-    		//window.location.href="http://192.168.191.1:8002/www/#/tab/dash";
+    		//window.location.href="http://localhost:8002/www/#/tab/dash";
     		// document.getElementById("sign").style.display="none";
 	     //    document.getElementById("login").style.display="block";
     	}
@@ -63,10 +63,10 @@ angular.module('Login', [])
     	}
     	else{
     		alert("出错!");
-    	}    	
+    	}
 	});
 	}
-         
+
 	//切换到注册页面
 	$scope.toSign = function() {
       document.getElementById("toSign").style.display="none";

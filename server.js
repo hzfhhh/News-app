@@ -1,4 +1,4 @@
-﻿var express = require('express');
+var express = require('express');
 var app = express();
 
 var bodyParser = require('body-parser');
@@ -24,12 +24,12 @@ app.use(session({
 //----------------------------------------------------
 
 var mysql  = require('mysql');  //调用MySQL模块
-var connection = mysql.createConnection({     
+var connection = mysql.createConnection({
   host : 'localhost',       //主机
   user : 'root',               //MySQL认证用户名
   password : 'huangzifeng1993',        //MySQL认证用户密码
   port : '3306',            //端口号
-  database : 'news-app'                   
+  database : 'news-app'
 });
 
 var server = app.listen(8081, function () {
@@ -73,8 +73,8 @@ app.post('/login',urlencod, function (req, res) {
     //查数据库
 	checkLoginUser(req,res,account,password);
 })
-	
-//插入一条新用户信息	
+
+//插入一条新用户信息
 function insertUser(account,password,name){
 	var  userAddSql = 'INSERT INTO user(id,account,pswd,name,avatar) VALUES(0,?,?,?,?)';
 	var  userAddSql_Params = [account,password,name,'img/default-user.png'];
@@ -83,12 +83,12 @@ function insertUser(account,password,name){
 	if(err){
 	 console.log('[INSERT ERROR] - ',err.message);
 	 return;
-	}        
+	}
 
 	console.log('--------------------------INSERT----------------------------');
-	//console.log('INSERT ID:',result.insertId);        
-	console.log('INSERT ID:',result);        
-	console.log('-----------------------------------------------------------------\n\n');  
+	//console.log('INSERT ID:',result.insertId);
+	console.log('INSERT ID:',result);
+	console.log('-----------------------------------------------------------------\n\n');
 	});
 	// connection.end();
 }
@@ -104,7 +104,7 @@ function checkSignUser(res,account,password,name){
           console.log('[SELECT ERROR] - ',err.message);
 		  res.send("error");
 		  return;
-        }    
+        }
 		if(result.length==0){
 			insertUser(account,password,name);
 			res.send("success");
@@ -116,8 +116,8 @@ function checkSignUser(res,account,password,name){
 		  for(var i = 0; i < result.length; i++)
 		  {
 			  console.log("%d\t%s\t%s", result[i].id, result[i].name, result[i].account);
-		  }	 
-		  console.log('-----------------------------------------------------------------\n\n'); 
+		  }
+		  console.log('-----------------------------------------------------------------\n\n');
 	});
 }
 
@@ -130,13 +130,13 @@ function checkLoginUser(req,res,account,password){
           console.log('[SELECT ERROR] - ',err.message);
    		  res.redirect("http://192.168.191.1:8081/login.html");
 		  return;
-        }    
+        }
 		if(result.length==0){
 			//res.redirect("http://localhost:8002/www/login.html");
 			var data="<html><script>alert('fail');window.location.href='http://192.168.191.1:8081/login.html'</script><div></div></html>";
 			res.writeHead(200, {"Content-Type": "text/html"});//注意这里
-			res.write(data); 
-			res.end(); 
+			res.write(data);
+			res.end();
 		}
 		else{
 			//去首页
@@ -144,12 +144,12 @@ function checkLoginUser(req,res,account,password){
 	  //       'Set-Cookie': 'one=hh',
 		 //        'Content-Type': 'text/plain'
 		 //    });
-    		
-   //  		fs.readFile('www/templates/tab-dash.html', 'utf-8',function (err, data) {//读取内容 
-			// if (err) throw err; 
+
+   //  		fs.readFile('www/templates/tab-dash.html', 'utf-8',function (err, data) {//读取内容
+			// if (err) throw err;
 			// res.writeHead(200, {'Set-Cookie': 'one=hh',"Content-Type": "text/html"});//注意这里
-			// res.write(data); 
-			// res.end(); 
+			// res.write(data);
+			// res.end();
 			// });
     		//res.cookie("user",{uid:result[0].id,name:result[0].name,password:result[0].pswd},{ maxAge: 60*60*24*1000,httpOnly:true, path:'/'});
 			//var cookieContent=["uid="+result[0].id+",name=huang];
@@ -158,13 +158,13 @@ function checkLoginUser(req,res,account,password){
 			//cookieContent.push("name="+result[0].name);
 			//'Set-Cookie': ["aaa=bbb","ccc=ddd","eee=fff"],
 			var htmlpage="<html><script>window.location.href='http://192.168.191.1:8081/#/tab/dash'</script><div></div></html>";
-			
+
     		// var htmlpage="<html><script>window.location.href='http://localhost:8002/www/#/tab/dash'</script><div></div></html>";
 			res.writeHead(200, {'Set-Cookie': cookieContent,"Content-Type": "text/html"});//注意这里
 			//res.writeHead(200, {"Content-Type": "text/html"});//注意这里
-			
-			res.write(htmlpage); 
-			res.end(); 
+
+			res.write(htmlpage);
+			res.end();
 			//res.end("<html><script>alert('hh');</script><div>hehe</div></html>");
 		    //res.sendFile("http://localhost:8002/www/#/tab/dash");
 			//res.redirect("http://localhost:8002/www/#/tab/dash");
@@ -174,8 +174,8 @@ function checkLoginUser(req,res,account,password){
 		  for(var i = 0; i < result.length; i++)
 		  {
 			  console.log("%d\t%s\t%s", result[i].id, result[i].name, result[i].account);
-		  }	 
-		  console.log('-----------------------------------------------------------------\n\n'); 
+		  }
+		  console.log('-----------------------------------------------------------------\n\n');
 	});
 }
 //插入到collect中
@@ -187,7 +187,7 @@ function InsertCollectMsg(res,userid,pbid){
           console.log('[SELECT ERROR] - ',err.message);
 		  res.send("error");
 		  return;
-        }    
+        }
 		else if(result.length==0){
 			var userAddSql = 'INSERT INTO collect(id,userid,pbid) VALUES(0,?,?)';
 			var userAddSql_Params = [userid,pbid];
@@ -197,7 +197,7 @@ function InsertCollectMsg(res,userid,pbid){
 			  console.log('[INSERT ERROR] - ',err.message);
 			  return;
 			}
-		});	     
+		});
 		}
 		// else{
 		// 	var name = result[0].name;
@@ -214,7 +214,7 @@ function InsertCollectMsg(res,userid,pbid){
 		// 	 console.log('[INSERT ERROR] - ',err.message);
 		// 	 return;
 		// 	}
-		// });	         
+		// });
 	 // }
   });
 }
@@ -227,7 +227,7 @@ function InsertPublishMsg(res,userid,account,msg,img){
           console.log('[SELECT ERROR] - ',err.message);
 		  res.send("error");
 		  return;
-        }    
+        }
 		if(result.length==0){
 			res.send("error");
 		}
@@ -246,7 +246,7 @@ function InsertPublishMsg(res,userid,account,msg,img){
 			 console.log('[INSERT ERROR] - ',err.message);
 			 return;
 			}
-		});	         
+		});
 	 }
   });
 }
@@ -254,6 +254,7 @@ function InsertPublishMsg(res,userid,account,msg,img){
 //接收用户个人信息
 app.post('/userInfo',function (req, res) {
 	var userid=req.session.userid;
+  console.log('userid',userid);
 	if(userid==null){
 		userid=readCookiesAndWriteSession(req);
 	}
@@ -288,8 +289,8 @@ app.get('/getIndex', function (req, res) {
           console.log('[SELECT ERROR] - ',err.message);
 		  res.send("error");
 		  return;
-        }   
-        var ids=""; 
+        }
+        var ids="";
 		for(var i = 0; i < result.length; i++)
 		{
 			ids+=result[i].fid+",";
@@ -300,12 +301,12 @@ app.get('/getIndex', function (req, res) {
 	          console.log('[SELECT ERROR] - ',err.message);
 			  res.send("error");
 			  return;
-	        }   
+	        }
 			for(var i = 0; i < result.length; i++)
 			{
 				ids+=result[i].uid+",";
 			}
-			
+
 			ids+=userid;
 			console.log(ids);
 
@@ -317,7 +318,7 @@ app.get('/getIndex', function (req, res) {
 		          console.log('[SELECT ERROR] - ',err.message);
 				  res.send("error");
 				  return;
-		        } 
+		        }
 		        var array=new Array();
 		        for(var i = 0; i < result.length; i++)
 				{
@@ -326,14 +327,16 @@ app.get('/getIndex', function (req, res) {
 					item.count=result[i].count;
 					item.avatar=result[i].avatar;
 					item.name=result[i].name;
-					item.msg=result[i].msg;
+					//item.msg=result[i].msg;
+					item.msg=replaceUrl(result[i].msg);
+					console.log(item.msg);
 					item.sendTime=result[i].sendTime;
 					item.img=result[i].img.split(",");
 					array.push(item);
 				}
 				console.log(array);
 				res.send(array);
-			});			
+			});
 		 });
 	});
 })
@@ -392,7 +395,7 @@ app.get('/getCollect', function (req, res) {
 		        }
 
 		    });
-        }   
+        }
 
 	});
 })
@@ -436,11 +439,11 @@ app.post('/upload', multipartMiddleware,function(req, res, next){
 		userid=readCookiesAndWriteSession(req);
 	}
 	var profile_image = req.files.file;
-    var tmp_path = profile_image.path;  //此处为页面图片存放的地址，在C盘的临时文件夹temp下。   
+    var tmp_path = profile_image.path;  //此处为页面图片存放的地址，在C盘的临时文件夹temp下。
     console.log(req.files);
      //图片重命名：时间戳+发布人id+图片类型
    	//var imgtype=profile_image.name.substring(profile_image.name.lastIndexOf("."),profile_image.name.length);
-    //var path = './www/img/imgPublish/'+Date.now()+userid+imgtype; 
+    //var path = './www/img/imgPublish/'+Date.now()+userid+imgtype;
     var newname=profile_image.name.replace(/\//g,"_");
     var path='./www/img/imgPublish/'+newname;
     var is = fs.createReadStream(tmp_path);
@@ -491,7 +494,7 @@ app.post('/getComment', function (req, res) {
           console.log('[SELECT ERROR] - ',err.message);
 		  res.send("error");
 		  return;
-        }    
+        }
 
         var comment=new Array();
         if(result.length>0){
@@ -503,7 +506,7 @@ app.post('/getComment', function (req, res) {
 				item.content=result[i].content;
 				item.comTime=result[i].comTime;
 				item.userid=result[i].userid;
-				uids+=result[i].userid+",";			
+				uids+=result[i].userid+",";
 				comment.push(item);
 			}
 			uids=uids.substring(0,uids.length-1)+")";
@@ -515,8 +518,8 @@ app.post('/getComment', function (req, res) {
 	          console.log('[SELECT ERROR] - ',err.message);
 			  res.send("error");
 			  return;
-	        } 
-	      	
+	        }
+
 	        for(var j=0;j<comment.length;j++){
 	        	for(var k=0;k<result.length;k++){
 	        		if(comment[j].userid==result[k].id){
@@ -526,20 +529,21 @@ app.post('/getComment', function (req, res) {
 	        	}
 	        }
 	        console.log(comment);
-			res.send(comment);	
+			res.send(comment);
 	    	});
         }
         else{
         	console.log(comment);
-        	res.send(comment);	
+        	res.send(comment);
         }
-		 
+
 		});
     });
 })
 
 app.post('/addComment', function (req, res) {
 	var userid=req.session.userid;
+  console.log('userid',userid);
 	if(userid==null){
 		userid=readCookiesAndWriteSession(req);
 	}
@@ -567,7 +571,7 @@ app.post('/addComment', function (req, res) {
 			if(err){
 			 console.log('[INSERT ERROR] - ',err.message);
 			 return;
-			}   
+			}
 
 			//更新pblishmsg表
 			var  Sql1 = "SELECT * FROM publishmsg where id='"+id+"'";
@@ -576,7 +580,7 @@ app.post('/addComment', function (req, res) {
 		          console.log('[SELECT ERROR] - ',err.message);
 				  res.send("error");
 				  return;
-		        }    
+		        }
 				var count=result[0].count+1;
 				//更新
 				var Sql2 = 'UPDATE publishmsg SET count = ? WHERE id = ?';
@@ -586,11 +590,11 @@ app.post('/addComment', function (req, res) {
 					if(err){
 					 console.log('[UPDATE ERROR] - ',err.message);
 					 return;
-					} 
+					}
 					res.send("success");
 				});
 			});
-		});  
+		});
     });
 })
 
@@ -619,9 +623,9 @@ app.post('/addMsg', function (req, res) {
 			 console.log('[INSERT ERROR] - ',err.message);
 			 res.send("fail");
 			 return;
-			}   
+			}
 			res.send("success");
-		});  
+		});
     });
 })
 
@@ -643,8 +647,8 @@ app.post('/getFriendList',function (req, res) {
           console.log('[SELECT ERROR] - ',err.message);
 		  res.send("error");
 		  return;
-        }   
-        var ids=""; 
+        }
+        var ids="";
 		for(var i = 0; i < result.length; i++)
 		{
 			ids+=result[i].fid+",";
@@ -655,7 +659,7 @@ app.post('/getFriendList',function (req, res) {
 	          console.log('[SELECT ERROR] - ',err.message);
 			  res.send("error");
 			  return;
-	        }   
+	        }
 			for(var i = 0; i < result.length; i++)
 			{
 				ids+=result[i].uid+",";
@@ -667,7 +671,7 @@ app.post('/getFriendList',function (req, res) {
 		          console.log('[SELECT ERROR] - ',err.message);
 				  res.send("error");
 				  return;
-		        } 
+		        }
 		        var array=new Array();
 		        for(var i = 0; i < result.length; i++)
 				{
@@ -679,7 +683,7 @@ app.post('/getFriendList',function (req, res) {
 				}
 				console.log(array);
 				res.send(array);
-			});			
+			});
 		 });
 	});
 })
@@ -704,8 +708,8 @@ app.post('/getHistoryMsg', function (req, res) {
 			if(err){
 			 console.log('[Select ERROR] - ',err.message);
 			 return;
-			} 
-			console.log("done");  
+			}
+			console.log("done");
 			var result1=result;
 			var  sql2 = 'SELECT * FROM chatmsg WHERE sendid='+friendId +' AND recid='+userid+' ORDER BY stime asc';
 		    connection.query(sql2,function (err, result) {
@@ -713,7 +717,7 @@ app.post('/getHistoryMsg', function (req, res) {
 		          console.log('[SELECT ERROR] - ',err.message);
 				  res.send("error");
 				  return;
-		        } 
+		        }
 		        //排序
 		        var response=new Array();
 		        var m=0,n=0;
@@ -738,10 +742,10 @@ app.post('/getHistoryMsg', function (req, res) {
 						response.push(result[n]);
 						n++;
 					}
-		        }   
+		        }
 				res.send(response);
 			});
-		});  
+		});
     });
 })
 
@@ -763,7 +767,7 @@ app.post('/searchByAccount', function (req, res) {
 			if(err){
 			 console.log('[Select ERROR] - ',err.message);
 			 return;
-			} 
+			}
 			if(result.length!=0){//判断是否已经是好友
 				var friendid=result[0].id;
 				var obj=new Array();obj.push(result[0]);
@@ -799,13 +803,13 @@ app.post('/searchByAccount', function (req, res) {
 						res.send(obj);
 						return;
 					}
-				}); 
+				});
 			}
 			else{//没有查到用户
 				res.send(result);
 			}
-			
-		});  
+
+		});
     });
 })
 
@@ -827,14 +831,14 @@ app.post('/addNewFriend', function (req, res) {
 			if(err){
 			 console.log('[Select ERROR] - ',err.message);
 			 return;
-			} 
+			}
 			if(result.length<=0){//没有主动添加过好友
 				var  sql2 = "SELECT * FROM friendlist WHERE fid='"+userid+"' and uid='"+friendid+"'";
 				connection.query(sql2,function (err, result) {
 					if(err){
 					 console.log('[Select ERROR] - ',err.message);
 					 return;
-					} 
+					}
 					if(result.length<=0){//对方也没有请求过添加自己为好友
 						var  AddSql = 'INSERT INTO friendlist(id,uid,fid,valid) VALUES(0,?,?,?)';
 						var  AddSql_Params = [userid,friendid,0];
@@ -843,12 +847,12 @@ app.post('/addNewFriend', function (req, res) {
 						if(err){
 						 console.log('[INSERT ERROR] - ',err.message);
 						 return;
-						}        
+						}
 
 						console.log('--------------------------INSERT----------------------------');
-						//console.log('INSERT ID:',result.insertId);        
-						console.log('INSERT ID:',result);        
-						console.log('-----------------------------------------------------------------\n\n');  
+						//console.log('INSERT ID:',result.insertId);
+						console.log('INSERT ID:',result);
+						console.log('-----------------------------------------------------------------\n\n');
 						});
 						res.send("success");
 					}
@@ -864,17 +868,17 @@ app.post('/addNewFriend', function (req, res) {
 							if(err){
 							 console.log('[INSERT ERROR] - ',err.message);
 							 return;
-							}        
+							}
 
 							console.log('--------------------------INSERT----------------------------');
-							//console.log('INSERT ID:',result.insertId);        
-							console.log('INSERT ID:',result);        
-							console.log('-----------------------------------------------------------------\n\n');  
+							//console.log('INSERT ID:',result.insertId);
+							console.log('INSERT ID:',result);
+							console.log('-----------------------------------------------------------------\n\n');
 							});
 							res.send("success");
 						}
 					}
-				});				
+				});
 			}
 			else{//主动添加过对方为好友
 				if(result[0].valid==1){//已经是好友
@@ -894,7 +898,7 @@ app.get('/getNews',function (req, res) {
 	if(userid==null){
 		userid=readCookiesAndWriteSession(req);
 	}
-	
+
 	var userGetSql = "SELECT * FROM friendlist WHERE fid='"+userid+"' AND valid=0";
 	console.log(userGetSql);
     connection.query(userGetSql,function (err, result) {
@@ -902,8 +906,8 @@ app.get('/getNews',function (req, res) {
           console.log('[SELECT ERROR] - ',err.message);
 		  res.send("error");
 		  return;
-        }   
-        var ids=""; 
+        }
+        var ids="";
 		for(var i = 0; i < result.length; i++)
 		{
 			ids+=result[i].uid+",";
@@ -916,9 +920,9 @@ app.get('/getNews',function (req, res) {
 		          console.log('[SELECT ERROR] - ',err.message);
 				  res.send("error");
 				  return;
-		        } 
+		        }
 				res.send(result);
-		});			 
+		});
 	});
 })
 
@@ -943,7 +947,7 @@ app.post('/dealAddFriend', function (req, res) {
 			if(err){
 			 console.log('[UPDATE ERROR] - ',err.message);
 			 return;
-			} 
+			}
 			var Sql3 = 'UPDATE friendlist SET valid = 1 WHERE fid = ? and uid= ?';
 			var Params3 = [friendid,userid];
 			//改 up
@@ -951,7 +955,7 @@ app.post('/dealAddFriend', function (req, res) {
 				if(err){
 				 console.log('[UPDATE ERROR] - ',err.message);
 				 return;
-				} 
+				}
 				res.send("success");
 			});
 		});
@@ -961,14 +965,14 @@ app.post('/dealAddFriend', function (req, res) {
 			if(err){
 			 console.log('[Select ERROR] - ',err.message);
 			 return;
-			} 
+			}
 			if(result.length<=0){//没有主动添加过好友
 				var  sql2 = "SELECT * FROM friendlist WHERE fid='"+userid+"' and uid='"+friendid+"'";
 				connection.query(sql2,function (err, result) {
 					if(err){
 					 console.log('[Select ERROR] - ',err.message);
 					 return;
-					} 
+					}
 					if(result.length<=0){//对方也没有请求过添加自己为好友
 						var  AddSql = 'INSERT INTO friendlist(id,uid,fid,valid) VALUES(0,?,?,?)';
 						var  AddSql_Params = [userid,friendid,0];
@@ -977,12 +981,12 @@ app.post('/dealAddFriend', function (req, res) {
 						if(err){
 						 console.log('[INSERT ERROR] - ',err.message);
 						 return;
-						}        
+						}
 
 						console.log('--------------------------INSERT----------------------------');
-						//console.log('INSERT ID:',result.insertId);        
-						console.log('INSERT ID:',result);        
-						console.log('-----------------------------------------------------------------\n\n');  
+						//console.log('INSERT ID:',result.insertId);
+						console.log('INSERT ID:',result);
+						console.log('-----------------------------------------------------------------\n\n');
 						});
 						res.send("success");
 					}
@@ -998,17 +1002,17 @@ app.post('/dealAddFriend', function (req, res) {
 							if(err){
 							 console.log('[INSERT ERROR] - ',err.message);
 							 return;
-							}        
+							}
 
 							console.log('--------------------------INSERT----------------------------');
-							//console.log('INSERT ID:',result.insertId);        
-							console.log('INSERT ID:',result);        
-							console.log('-----------------------------------------------------------------\n\n');  
+							//console.log('INSERT ID:',result.insertId);
+							console.log('INSERT ID:',result);
+							console.log('-----------------------------------------------------------------\n\n');
 							});
 							res.send("success");
 						}
 					}
-				});				
+				});
 			}
 			else{//主动添加过对方为好友
 				if(result[0].valid==1){//已经是好友
@@ -1036,14 +1040,14 @@ function readCookiesAndWriteSession(req){
         if(parts[0].trim()=="uid"){
         	userid=parts[1];
         }
-		
+
         // if(parts[0].trim()=="username"){
         // 	username=parts[1];
         // }
         if(parts[0].trim()=="useraccount"){
         	useraccount=parts[1];
         }
-		
+
     });
 	req.session.userid=userid;
 	//req.session.username=username;
@@ -1055,21 +1059,41 @@ function readCookiesAndWriteSession(req){
 
 
 //时间格式化
-Date.prototype.Format = function(fmt)   
-{ //author: meizz   
-  var o = {   
-    "M+" : this.getMonth()+1,                 //月份   
-    "d+" : this.getDate(),                    //日   
-    "h+" : this.getHours(),                   //小时   
-    "m+" : this.getMinutes(),                 //分   
-    "s+" : this.getSeconds(),                 //秒   
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
-    "S"  : this.getMilliseconds()             //毫秒   
-  };   
-  if(/(y+)/.test(fmt))   
-    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
-  for(var k in o)   
-    if(new RegExp("("+ k +")").test(fmt))   
-  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
-  return fmt;   
-}  
+Date.prototype.Format = function(fmt)
+{ //author: meizz
+  var o = {
+    "M+" : this.getMonth()+1,                 //月份
+    "d+" : this.getDate(),                    //日
+    "h+" : this.getHours(),                   //小时
+    "m+" : this.getMinutes(),                 //分
+    "s+" : this.getSeconds(),                 //秒
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度
+    "S"  : this.getMilliseconds()             //毫秒
+  };
+  if(/(y+)/.test(fmt))
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+  for(var k in o)
+    if(new RegExp("("+ k +")").test(fmt))
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+  return fmt;
+}
+
+
+
+app.get('/deal', function (req, res) {
+	var str="分享链接";
+	res.send(replaceUrl(str));
+})
+
+//替换
+function replaceUrl(s) {
+   var strRegex = '((https|http)://)[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+';
+   var regex=new RegExp(strRegex,"gi");
+   var arr=s.match(regex);
+   if(arr!=null){
+   		for(var j=0;j<arr.length;j++){
+			console.log('arr',arr[0]);
+		}
+   }
+    return s.replace(regex,function(arr){return '<a href="'+arr+'" target="_blank">'+'网页链接'+'</a>';});
+}

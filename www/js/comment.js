@@ -6,14 +6,14 @@ function submitComment(id){
 		return;
 	}
     var xmlHttp = null;
-	if (window.ActiveXObject) {                                                       
-    	xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");                                  
-	} else if (window.XMLHttpRequest) {                                                     
-   		xmlHttp = new XMLHttpRequest();                                                  
+	if (window.ActiveXObject) {
+    	xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+	} else if (window.XMLHttpRequest) {
+   		xmlHttp = new XMLHttpRequest();
 	}
 	var data="id="+id+"&&&&content="+content;
 	if (xmlHttp) {
-		xmlHttp.open("POST", "http://localhost:8081/addComment", true);
+		xmlHttp.open("POST", "http://192.168.191.1:8081/addComment", true);
 		xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xmlHttp.send(data);
 		xmlHttp.onreadystatechange = function () {
@@ -26,19 +26,19 @@ function submitComment(id){
 						div.innerHTML ='<span class="critic">我：</span><span class="content">'+content+'</span>';
 						document.getElementById("addcomment"+id).value="";
 						//var html='<ion-item class="comment-item"><span class="critic">我</span><span class="content">'+content+'</span></ion-item>';
-    					document.getElementById("content"+id).appendChild(div);      
+    					document.getElementById("content"+id).appendChild(div);
 
     					//评论数+1
-    					document.getElementById("count"+id).innerHTML=parseInt(document.getElementById("count"+id).innerHTML)+1; 
+    					document.getElementById("count"+id).innerHTML=parseInt(document.getElementById("count"+id).innerHTML)+1;
 					}
 					else{
 						alert("参数有误");
 					}
-					
+
 				} else {
 					alert("error");
 				}
-				
+
 			}
 		};
 	}

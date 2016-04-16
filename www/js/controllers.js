@@ -7,8 +7,17 @@ angular.module('starter.controllers', [])
       //headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
     })
    .success(function(res) {
-      $scope.chats = res;
+    if(res.length!=0){
+       $scope.chats = res;
+        // setTimeout(function(){
+        //   for(var i=0;i<res.length;i++){
+        //     document.getElementById("msg"+res[i].id).innerHTML=res[i].msg;
+        //    }
+        // },500);
+
+    }
     });
+
   setTimeout(function(){$scope.user = friends.getuserInfo()},100);
     $scope.myVar = true;
     $scope.collect = function (id) {
@@ -277,7 +286,7 @@ angular.module('starter.controllers', [])
 
 
   $scope.emoji = function () {
-  	document.getElementById('emoji').addEventListener('click', function(e) {
+    document.getElementById('emoji').addEventListener('click', function(e) {
             var emojiwrapper = document.getElementById('emojiWrapper');
             emojiwrapper.style.display = 'block';
             e.stopPropagation();
@@ -307,11 +316,11 @@ angular.module('starter.controllers', [])
         emojiContainer.appendChild(docFragment);
   };
 $scope.emojiW = function () {
-	var emojiWrapper = document.getElementById("emojiWrapper");
-	if (event.target ==emojiWrapper)
-	{
-		document.getElementById("emojiWrapper").style.display = 'none';
-	}
+  var emojiWrapper = document.getElementById("emojiWrapper");
+  if (event.target ==emojiWrapper)
+  {
+    document.getElementById("emojiWrapper").style.display = 'none';
+  }
 };
 $scope.initialEmoji = function() {
      var emojiContainer = document.getElementById('emojiWrapper'),
@@ -478,3 +487,4 @@ $scope.initialEmoji = function() {
   };
 
 });
+
