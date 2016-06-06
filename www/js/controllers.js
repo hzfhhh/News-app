@@ -14,7 +14,6 @@ angular.module('starter.controllers', [])
         //     document.getElementById("msg"+res[i].id).innerHTML=res[i].msg;
         //    }
         // },500);
-
     }
     });
 
@@ -68,8 +67,10 @@ angular.module('starter.controllers', [])
 
 
 .controller('PublishCtrl',function($scope, $stateParams,FileUploader,$http){
+  $scope.myVar = true;
   $scope.send = function () {
   //发送
+  $scope.myVar = false;
   var imgarray='';
   var ImgClass = document.getElementsByTagName("strong");
   for(var i=0;i<ImgClass.length;i++){
@@ -78,7 +79,6 @@ angular.module('starter.controllers', [])
     } else {
           imgarray+='img/imgPublish/'+ImgClass[i].innerHTML+",";
     }
-
   }
   var data = {
     msg : document.getElementById("msg").value,
@@ -96,17 +96,25 @@ angular.module('starter.controllers', [])
     });
     uploader.uploadAll();
     window.location.href = "http://192.168.191.1:8081/#/tab/dash";
+    window.location.reload();
     //document.getElementById("upload-all").click();
   }
   //添加图片
   $scope.toInput = function () {
   document.getElementById("upLoad").click();
   }
+     //转换包含emoji文本内容的DOM对象
+      Emoji.emoji(document.getElementById('emojiWrapper'));
   //表情包
    $scope.emoji = function () {
     document.getElementById('emoji').addEventListener('click', function(e) {
             var emojiwrapper = document.getElementById('emojiWrapper');
-            emojiwrapper.style.display = 'block';
+            if (emojiwrapper.style.display == "none") {
+              emojiwrapper.style.display = 'block';
+            }
+            else {
+              emojiwrapper.style.display = 'none';
+            }
             e.stopPropagation();
         }, false);
         document.body.addEventListener('click', function(e) {
@@ -115,23 +123,6 @@ angular.module('starter.controllers', [])
                 emojiwrapper.style.display = 'none';
             };
         });
-        document.getElementById('emojiWrapper').addEventListener('click', function(e) {
-            var target = e.target;
-            if (target.nodeName.toLowerCase() == 'img') {
-                var messageInput = document.getElementById('messageInput');
-                messageInput.focus();
-                messageInput.value = messageInput.value + '[emoji:' + target.title + ']';
-            };
-        }, false);
-         var emojiContainer = document.getElementById('emojiWrapper'),
-            docFragment = document.createDocumentFragment();
-        for (var i = 20; i > 0; i--) {
-            var emojiItem = document.createElement('img');
-            emojiItem.src = 'img/emoji/' + i + '.gif';
-            emojiItem.title = i;
-            docFragment.appendChild(emojiItem);
-        };
-        emojiContainer.appendChild(docFragment);
   };
   //上传图片
       var uploader = $scope.uploader = new FileUploader({
@@ -388,7 +379,67 @@ $scope.initialEmoji = function() {
   }
 })
 
-
+//我的分享
+.controller('MyShareCtrl', function($scope, $http) {
+  $http({
+      method : 'GET',
+      url : 'http://192.168.191.1:8081/getMyShare'
+      //headers : { 'Content-Type': 'application/x-www-form-urlencoded' } // set the headers so angular passing info as form data (not request payload)
+    })
+   .success(function(res) {
+      $scope.chats = res;
+      console.log("res",res);
+    });
+    $scope.del = function(chats,chat) {
+      console.log("chats",chats);
+      console.log("chat",chat);
+      pbid = chat.id;
+      $http({
+        method : 'POST',
+        url : 'http://192.168.191.1:8081/delShare',
+        data : {pbid:pbid}
+        // headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+      })
+      .success(function(res) {
+        chats.splice(chats.indexOf(chat),1);
+      })
+    }
+    // $scope.myVar = true;
+    $scope.toggle = function (id) {
+     //$scope.myVar = !$scope.myVar;
+     if(document.getElementById("comment"+id).style.display=="none"){
+        document.getElementById("comment"+id).style.display="block";
+     }
+     else{
+         document.getElementById("comment"+id).style.display="none";
+     }
+     if(document.getElementById("count"+id).innerHTML!="0"){
+        $http({
+          method : 'POST',
+          url : 'http://192.168.191.1:8081/getComment',
+          data : {id:id},
+          headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+        .success(function(res) {
+          var content="<div id='content"+id+"' >";
+          if(res.length>0){
+            for(var i=0;i<res.length;i++){
+               content+='<ion-item class="comment-item"><span class="critic">'+res[i].username+"："+'</span><span class="content">'+res[i].content+'</span></ion-item>';
+            }
+            content+="</div>";
+          }
+        content+='<input id="addcomment'+id+'" class="commentText" type="text" name="addcomment" placeholder="输入你的评论" /><button class="submitbtn button button-positive" onclick="submitComment('+id+')" >提交</button>';
+        document.getElementById("comment"+id).innerHTML=content;
+        console.log(res);
+        });
+     }
+     else{
+        var content="<div id='content"+id+"' ></div>";
+        content+='<input id="addcomment'+id+'" class="commentText" type="text" name="addcomment" placeholder="输入你的评论" require/><input class="submitbtn button button-positive" onclick="submitComment('+id+')" type="button" value="提交" />';
+        document.getElementById("comment"+id).innerHTML=content;
+     }
+  }
+})
 
 //请求添加好友页面
 .controller('AddNewFriendCtrl', function($scope, $http) {
@@ -428,7 +479,6 @@ $scope.initialEmoji = function() {
     });
   };
 
-
    $scope.addFriend= function (friendid) {
        $http({
         method : 'POST',
@@ -451,8 +501,6 @@ $scope.initialEmoji = function() {
         console.log(res);
       });
    };
-
-
 })
 
 //处理好友添加请求
@@ -466,7 +514,7 @@ $scope.initialEmoji = function() {
       $scope.newFriend=res;
     });
 
-  $scope.dealResult = function (res,friendid,flag) {
+  $scope.dealResult = function(res,friendid,flag) {
     if(flag=="refuse"){
       res.splice(res.indexOf(friendid),1);
       return;
@@ -485,6 +533,4 @@ $scope.initialEmoji = function() {
         alert("添加成功");
     });
   };
-
 });
-

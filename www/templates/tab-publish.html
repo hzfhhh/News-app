@@ -13,10 +13,13 @@
 	  	  <strong ng-hide="true">{{ item.file.name }}</strong>
 	  	  <div ng-show="uploader.isHTML5" ng-thumb="{ file: item._file,width:65, height: 65 }"></div>
           <button class="button button-icon icon ion-ios-close-empty delete" ng-click="item.remove()">
-          </button>	
+          </button>
 	  	</li>
 	  </ul>
-	</div> 
+    <p class="loading">
+      <ion-spinner icon="bubbles" class="spinner-calm" ng-hide="myVar"></ion-spinner>
+    </p>
+	</div>
 	  <button type="button" class="btn btn-success" id="upload-all" ng-hide="true" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
       <span class="glyphicon glyphicon-upload"></span> Upload all
     </button>
@@ -28,7 +31,10 @@
     </button>
     <input type="file" id="upLoad" nv-file-select="" uploader="uploader" ng-hide="true" uploader="uploader" multiple/><br/>
   </div>
-  <div id="emojiWrapper" ng-click="emojiW()">
+<!--   <div id="emojiWrapper" ng-click="emojiW()">
+</div> -->
+  <div id="emojiWrapper">
+     😄 😃 😀 😊 ☺️ 😉 😍 😘 😚 😗 😙 😜 😝 😛 😳 😁 😔 😌 😒 😞 😣 😢 😂 😭 😪 😥 😰 😅 😓 😩 😫 😨 😱 😠 😡 😤 😖 😆 😋 😷 😎 😴 😵 😲 😟 😦 😧 😈 👿 😮 😬 😐 😕 😯 😶 😇 😏 😑
   </div>
 </ion-footer-bar>
 </ion-view>

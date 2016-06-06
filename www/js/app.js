@@ -178,12 +178,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
   })
+
   .state('tab.collect', {
     url: '/collect',
     views: {
-      'tab-chats': {
+      'tab-account': {
         templateUrl: 'templates/collect.html',
         controller: 'CollectCtrl'
+      }
+    }
+  })
+
+  .state('tab.myShare', {
+    url: '/myShare',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/myShare.html',
+        controller: 'MyShareCtrl'
       }
     }
   })
@@ -201,7 +212,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .state('tab.mynews', {
     url: '/mynews',
     views: {
-      'tab-chats': {
+      'tab-account': {
         templateUrl: 'templates/mynews.html',
         controller: 'MyNewsCtrl'
       }

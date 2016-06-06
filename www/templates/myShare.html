@@ -1,0 +1,43 @@
+<ion-view view-title=我的分享 hide-tabs="true">
+<!--   <ion-nav-buttons side="left">
+  <button class="button button-icon icon ion-ios-arrow-left" ui-sref="tab.account"></button>
+</ion-nav-buttons> -->
+  <ion-content class="padding">
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right card" ng-repeat="chat in chats" type="item-text-wrap">
+        <img ng-src="{{chat.avatar}}">
+        <div class="del-share">
+          <button class="button button-icon ion-close-circled" ng-click="del(chats,chat)"></button>
+        </div>
+        <h2>{{chat.name}}</h2>
+        <p ng-bind-html="chat.msg | trustHtml"></p>
+        <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
+
+        <!--<ion-option-button class="button-assertive" ng-click="remove(chat)">
+          Delete
+        </ion-option-button>-->
+        <div>
+          <img class="photo" ng-repeat="img in chat.img" ng-src="{{img}}">
+          <!-- <img class="photo" ng-src="{{chat.item[0].photo[0]}}">
+          <img class="photo" ng-src="{{chat.item[0].photo[1]}}"> -->
+          <!--<img class="photo" ng-src="{{chat.photo[1]}}">-->
+          <p>{{chat.sendTime}}</p>
+        </div>
+        <div class="row bar-footer">
+        <div class="col-33" align="left">
+          <button class="button button-icon iocn ion-share"></button>
+        </div>
+        <div class="col-33" align="center">
+          <button class="button button-icon iocn ion-ios-chatboxes-outline" ng-click="toggle('{{chat.id}}')"></button>
+          <span class="count" id="count{{chat.id}}">{{chat.count}}</span>
+        </div>
+        <div class="col-33" align="right">
+          <button class="button button-icon iocn ion-ios-heart-outline"></button>
+        </div>
+      </div>
+      <div class="comment" style="display:none" id="comment{{chat.id}}">
+      </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

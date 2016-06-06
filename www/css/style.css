@@ -80,8 +80,9 @@ a {
 }
 #emojiWrapper {
     display: none;
+    padding-left: 3%;
     width: 90%;
-    height: 200px;
+    height: 280px;
     bottom: 50px;
     left: 5%;
     position: absolute;
@@ -209,7 +210,17 @@ li {
   border-style: none;
 }
 .index {
-  background-color: #F2F2F2;
+  background: #f7fafc;
+}
+.index .bar {
+  background-color: rgba(0,0,0,0);
+  border-bottom: 0px !important;
+}
+.index .bar .title {
+  color: rgb(15,136,235);
+  font-size: 30px;
+  font-weight: 400;
+  font-family: 'Helvetica Neue','Microsoft YaHei';
 }
 #login label:nth-child(1) {
   margin-bottom: 1px;
@@ -218,4 +229,21 @@ li {
 #flag {
   color: rgb(56,126,245);
   font-weight: bold;
+}
+.loading {
+  text-align: center;
+}
+.loading .spinner svg {
+      width: 19% !important;
+      height: 85px !important;
+    }
+.del-share {
+  float: right;
+  position: relative;
+  left: 35px;
+  top: -10px;
+}
+.del-share .button {
+  font-size: 22px !important;
+  color: rgb(204,63,58) !important;
 }

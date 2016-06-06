@@ -29,7 +29,8 @@ var connection = mysql.createConnection({
   user : 'root',               //MySQL认证用户名
   password : 'huangzifeng1993',        //MySQL认证用户密码
   port : '3306',            //端口号
-  database : 'news-app'
+  database : 'news-app',
+  charset : 'utf8mb4'
 });
 
 var server = app.listen(8081, function () {
@@ -384,7 +385,9 @@ app.get('/getCollect', function (req, res) {
 							item.count=result[i].count;
 							item.avatar=result[i].avatar;
 							item.name=result[i].name;
-							item.msg=result[i].msg;
+							// item.msg=result[i].msg;
+              item.msg = replaceUrl(result[i].msg);
+              console.log(item.msg);
 							item.sendTime=result[i].sendTime;
 							item.img=result[i].img.split(",");
 							array.push(item);
@@ -393,14 +396,78 @@ app.get('/getCollect', function (req, res) {
 		            res.send(array);
 		            return;
 		        }
-
 		    });
         }
-
 	});
 })
+
+//接收分享的内容信息
+app.get('/getMyShare',function(req, res) {
+  var userid=req.session.userid;
+  if(userid==null){
+    userid=readCookiesAndWriteSession(req);
+  }
+  console.log("getMyShare:"+userid);
+  //获取publishmsg中的userid
+  var userGetSql = "SELECT * FROM publishmsg where userid='"+userid+"'ORDER BY sendTime desc";
+  console.log(userGetSql);
+  var array = new Array();
+  connection.query(userGetSql,function (err, result) {
+    if(err){
+      console.log('[SELECT ERROR] - ',err.message);
+  res.send("error");
+  return;
+    }
+    else {
+      if(result.length<=0){
+        res.send(array);
+        return;
+      }
+      for(var i = 0; i < result.length; i++){
+        var item=new Object();
+        item.id=result[i].id;
+        item.count=result[i].count;
+        item.avatar=result[i].avatar;
+        item.name=result[i].name;
+        // item.msg=result[i].msg;
+        item.msg = replaceUrl(result[i].msg);
+        console.log(item.msg);
+        item.sendTime=result[i].sendTime;
+        item.img=result[i].img.split(",");
+        array.push(item);
+      }
+      console.log("array2:",array);
+      res.send(array);
+      return;
+     }
+});
+})
+//删除分享的内容
+app.post('/delShare',function(req, res) {
+  var post = '';     //定义了一个post变量，用于暂存请求体的信息
+  req.on('data', function(chunk){    //通过req的data事件监听函数，每当接受到请求体的数据，就累加到post变量中
+      post += chunk;
+  });
+  req.on('end', function(){    //在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
+  console.log(post);//post是json格式
+  var pbid=JSON.parse(post).pbid;
+  var shareDelSql = "DELETE FROM publishmsg WHERE id = '"+pbid+"'";
+  connection.query(shareDelSql, function(err,result) {
+  if(err){
+    console.log('[SELECT ERROR] - ',err.message);
+    res.send("error");
+    return;
+      }
+  else {
+    console.log("delete success!");
+    res.send();
+  }
+    })
+  });
+})
+
 //接收发布的文字信息
-app.post('/getMsg', function (req, res) {
+app.post('/getMsg', function(req, res) {
 	var userid=req.session.userid;
 	if(userid==null){
 		userid=readCookiesAndWriteSession(req);
@@ -1078,12 +1145,10 @@ Date.prototype.Format = function(fmt)
   return fmt;
 }
 
-
-
-app.get('/deal', function (req, res) {
-	var str="分享链接";
-	res.send(replaceUrl(str));
-})
+// app.get('/deal', function (req, res) {
+// 	var str="分享链接";
+// 	res.send(replaceUrl(str));
+// })
 
 //替换
 function replaceUrl(s) {
