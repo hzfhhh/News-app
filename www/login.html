@@ -31,16 +31,23 @@
       <a class="button button-positive" id="toSign" ng-click="toSign()">注册</a>
     </div>
     <div class="user-message">
-     <form action="http://192.168.191.1:8081/login" method="POST">
       <div id="login">
+<!--         <form action="http://192.168.191.1:8081/login" method="POST">
+  <label class="item item-input">
+    <input type="text" placeholder="账号" name="account" ng-model="account" required>
+  </label>
+  <label class="item item-input">
+    <input type="password" placeholder="密码" name="password" ng-model="password" required>
+  </label>
+  <input class="button button-block button-positive" type="submit" value="登录">
+</form> -->
         <label class="item item-input">
           <input type="text" placeholder="账号" name="account" ng-model="account" required>
         </label>
         <label class="item item-input">
           <input type="password" placeholder="密码" name="password" ng-model="password" required>
         </label>
-        <input class="button button-block button-positive" type="submit" value="登录">
-      </form>
+        <input class="button button-block button-positive" type="button" ng-click="login()" value="登录">
         <p id="err-login">账号或密码错误!</p>
       </div>
       <div id="sign">

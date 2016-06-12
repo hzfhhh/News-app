@@ -68,11 +68,22 @@ app.post('/register', function (req, res) {
 })
 
 //接收客户端登录信息
-app.post('/login',urlencod, function (req, res) {
-    var account=req.body.account;
-    var password=req.body.password;
+app.post('/login', function (req, res) {
+    // var account=req.body.account;
+    // var password=req.body.password;
     //查数据库
-	checkLoginUser(req,res,account,password);
+   var post = '';     //定义了一个post变量，用于暂存请求体的信息
+    req.on('data', function(chunk){    //通过req的data事件监听函数，每当接受到请求体的数据，就累加到post变量中
+        post += chunk;
+    });
+    req.on('end', function(){    //在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
+    console.log(post);//post是json格式
+    var account=JSON.parse(post).account;
+    var password=JSON.parse(post).password;
+    //查数据库
+    checkLoginUser(req,res,account,password);
+    });
+	// checkLoginUser(req,res,account,password);
 })
 
 //插入一条新用户信息
@@ -129,47 +140,26 @@ function checkLoginUser(req,res,account,password){
     connection.query(userGetSql,function (err, result) {
         if(err){
           console.log('[SELECT ERROR] - ',err.message);
-   		  res.redirect("http://192.168.191.1:8081/login.html");
-		  return;
+   		    res.redirect("http://192.168.191.1:8081/login.html");
+        // res.send("error");
+		    return;
         }
 		if(result.length==0){
 			//res.redirect("http://localhost:8002/www/login.html");
-			var data="<html><script>alert('fail');window.location.href='http://192.168.191.1:8081/login.html'</script><div></div></html>";
-			res.writeHead(200, {"Content-Type": "text/html"});//注意这里
-			res.write(data);
-			res.end();
+			// var data="<html><script>alert('fail');window.location.href='http://192.168.191.1:8081/login.html'</script><div></div></html>";
+			// res.writeHead(200, {"Content-Type": "text/html"});//注意这里
+			// res.write(data);
+			res.send("error");
 		}
 		else{
-			//去首页
-			// res.writeHead(200, {
-	  //       'Set-Cookie': 'one=hh',
-		 //        'Content-Type': 'text/plain'
-		 //    });
-
-   //  		fs.readFile('www/templates/tab-dash.html', 'utf-8',function (err, data) {//读取内容
-			// if (err) throw err;
-			// res.writeHead(200, {'Set-Cookie': 'one=hh',"Content-Type": "text/html"});//注意这里
-			// res.write(data);
-			// res.end();
-			// });
-    		//res.cookie("user",{uid:result[0].id,name:result[0].name,password:result[0].pswd},{ maxAge: 60*60*24*1000,httpOnly:true, path:'/'});
-			//var cookieContent=["uid="+result[0].id+",name=huang];
-			var cookieContent= ["uid="+result[0].id,"username="+result[0].name,"useraccount="+result[0].account];
-			//cookieContent.push("uid="+result[0].id);
-			//cookieContent.push("name="+result[0].name);
-			//'Set-Cookie': ["aaa=bbb","ccc=ddd","eee=fff"],
-			var htmlpage="<html><script>window.location.href='http://192.168.191.1:8081/#/tab/dash'</script><div></div></html>";
-
-    		// var htmlpage="<html><script>window.location.href='http://localhost:8002/www/#/tab/dash'</script><div></div></html>";
-			res.writeHead(200, {'Set-Cookie': cookieContent,"Content-Type": "text/html"});//注意这里
-			//res.writeHead(200, {"Content-Type": "text/html"});//注意这里
-
-			res.write(htmlpage);
-			res.end();
-			//res.end("<html><script>alert('hh');</script><div>hehe</div></html>");
-		    //res.sendFile("http://localhost:8002/www/#/tab/dash");
-			//res.redirect("http://localhost:8002/www/#/tab/dash");
-			//window.location.herf="http://localhost:8002/www/#/tab/dash";
+			var cookieContent= [result[0].id,result[0].name,result[0].account];
+      req.session.userid = result[0].id;
+      req.session.account = result[0].account;
+			// var htmlpage="<html><script>window.location.href='http://192.168.191.1:8081/#/tab/dash'</script><div></div></html>";
+      // Set-Cookie可以去掉
+			// res.writeHead(200, {'Set-Cookie': cookieContent,"Content-Type": "text/html"});//注意这里
+			// res.write(htmlpage);
+			res.send(cookieContent);
 		}
 		 console.log('--------------------------SELECT----------------------------');
 		  for(var i = 0; i < result.length; i++)
@@ -255,11 +245,11 @@ function InsertPublishMsg(res,userid,account,msg,img){
 //接收用户个人信息
 app.post('/userInfo',function (req, res) {
 	var userid=req.session.userid;
-  console.log('userid',userid);
+  console.log('userid0:',userid);
 	if(userid==null){
-		userid=readCookiesAndWriteSession(req);
+	userid=readCookiesAndWriteSession(req);
 	}
-	console.log("userinfo");
+	console.log("userid1:",userid);
 	console.log(req.headers.cookie);
     var userGetSql = "SELECT * FROM user WHERE id='"+userid+"'";
     console.log(userGetSql);
@@ -278,7 +268,8 @@ app.post('/userInfo',function (req, res) {
 
 //接收客户端登录信息
 app.get('/getIndex', function (req, res) {
-	var userid=readCookiesAndWriteSession(req);
+  var userid = req.session.userid;
+	// var userid=readCookiesAndWriteSession(req);
 	console.log("getIndex:"+userid);
 	//var userid=1;//当前登录用户的主键
 
@@ -1100,11 +1091,14 @@ function readCookiesAndWriteSession(req){
 	var userid;
 	var useraccount;
 	//var username,useraccount
-	console.log(req.headers.cookie);
+	console.log("cookies",req.headers.cookie);
+  console.log("cookies.split:",req.headers.cookie.split(';'));
     req.headers.cookie && req.headers.cookie.split(';').forEach(function( Cookie ) {
         var parts = Cookie.split('=');
+        console.log(parts);
         console.log(parts[0]);
-        if(parts[0].trim()=="uid"){
+        console.log(parts[1]);
+        if(parts[0].trim()=="userid"){
         	userid=parts[1];
         }
 
@@ -1116,6 +1110,8 @@ function readCookiesAndWriteSession(req){
         }
 
     });
+    console.log("userid:",userid);
+    console.log("useraccount:",useraccount);
 	req.session.userid=userid;
 	//req.session.username=username;
 	req.session.useraccount=useraccount;
