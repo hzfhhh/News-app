@@ -1,4 +1,4 @@
-# 基于Ionic与Node.js开发的社交App
+# 基于Angularjs与Node.js开发的社交App
 
 ## version1.0
 ### 功能
